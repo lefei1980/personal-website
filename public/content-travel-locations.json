@@ -1,0 +1,46 @@
+{
+  "locations": [
+    {
+      "name": "Yellowstone National Park",
+      "country": "USA",
+      "type": "tourism",
+      "coordinates": [44.428, -110.5885],
+      "description": "Amazing geysers, hot springs, and wildlife. One of the most beautiful national parks.",
+      "folder": "yellowstone"
+    },
+    {
+      "name": "Tokyo",
+      "country": "Japan",
+      "type": "tourism",
+      "coordinates": [35.6762, 139.6503],
+      "description": "Vibrant city with incredible food, technology, and culture blend.",
+      "folder": "tokyo"
+    },
+    {
+      "name": "Paris",
+      "country": "France",
+      "type": "tourism",
+      "coordinates": [48.8566, 2.3522],
+      "description": "The City of Light - art, architecture, and amazing cuisine.",
+      "folder": "paris"
+    },
+    {
+      "name": "Boston, MA",
+      "country": "USA",
+      "type": "home",
+      "coordinates": [42.3601, -71.0589],
+      "years": "2015-2018",
+      "description": "Graduate school years - where my tech journey began.",
+      "folder": "boston"
+    },
+    {
+      "name": "Atlanta, GA",
+      "country": "USA",
+      "type": "home",
+      "coordinates": [33.749, -84.388],
+      "years": "2018-Present",
+      "description": "Current home - vibrant tech scene and great community.",
+      "folder": "atlanta"
+    }
+  ]
+}

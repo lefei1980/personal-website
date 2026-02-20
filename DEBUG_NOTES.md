@@ -151,6 +151,45 @@ module.exports = {
 
 ---
 
+## Travel Photos Management
+
+### Auto-Detection System (Phase 2.5)
+
+**Problem**: Originally required manual maintenance of `photoCount` field and sequential numbering (1.jpg, 2.jpg, etc.)
+
+**Solution**: Build-time manifest generation
+- Script scans `/public/images/travel/` folders
+- Auto-detects all image files (supports .jpg, .jpeg, .png, .gif, .webp)
+- Supports any filename (no numbering required)
+- Generates `/public/travel-photos-manifest.json`
+
+**Usage**:
+```bash
+npm run generate-manifest  # Manually generate manifest
+npm run dev                 # Auto-generates before dev server
+npm run build               # Auto-generates before production build
+```
+
+**Adding new photos**:
+1. Add images to `/public/images/travel/[location-folder]/`
+   - Use any filenames: `sunset.jpg`, `IMG_1234.jpg`, etc.
+   - Supports multiple formats
+2. Run `npm run dev` or `npm run build`
+3. Manifest auto-updates ✅
+4. No JSON editing needed ✅
+
+**Location JSON** (simplified):
+```json
+{
+  "id": "paris",
+  "name": "Paris",
+  "folder": "paris"
+  // No photoCount needed!
+}
+```
+
+---
+
 ## Useful Commands
 
 ```bash
