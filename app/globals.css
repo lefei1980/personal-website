@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles are now handled by Tailwind classes in layout.tsx */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

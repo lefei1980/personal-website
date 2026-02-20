@@ -1,0 +1,47 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "Personal portfolio website with blog, apps showcase, and admin CMS",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lefei1980/personal-website.git"
+  },
+  "keywords": [
+    "portfolio",
+    "blog",
+    "nextjs",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lefei1980/personal-website/issues"
+  },
+  "homepage": "https://github.com/lefei1980/personal-website#readme",
+  "dependencies": {
+    "@types/node": "^25.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "^16.1.6",
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^3.4.19"
+  }
+}

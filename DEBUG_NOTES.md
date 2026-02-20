@@ -1,0 +1,189 @@
+# Debug Notes & Learnings
+
+A collection of solutions, tips, and learnings encountered during development.
+
+---
+
+## Setup Issues
+
+### Issue: create-next-app conflicts with existing files
+**Problem**: Running `create-next-app` in a directory with existing files (project-blueprint.txt, .claude/) causes an error.
+
+**Solution**: Initialize Next.js manually instead:
+```bash
+npm init -y
+npm install next react react-dom typescript @types/react @types/node @types/react-dom
+# Then create config files manually
+```
+
+**Lesson**: Manual setup gives more control and avoids conflicts in existing directories.
+
+---
+
+### Issue: Tailwind CSS v4 PostCSS plugin error
+**Problem**: When installing `tailwindcss` without version constraint, npm installs v4 which has breaking changes. Error message:
+```
+Error: It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin.
+The PostCSS plugin has moved to a separate package...
+```
+
+**Solution**: Use stable Tailwind CSS v3 instead:
+```bash
+npm uninstall tailwindcss
+npm install -D tailwindcss@^3.4.0
+```
+
+**Why**: Tailwind v4 is still in beta/early release and requires `@tailwindcss/postcss` package. V3 is production-ready and stable.
+
+**Lesson**: Always specify major versions for CSS frameworks to avoid breaking changes.
+
+---
+
+## Next.js Configuration
+
+### Static Export for Cloudflare Pages
+**Important**: Must configure `next.config.js` for static export since Cloudflare Pages doesn't support Next.js server features.
+
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true, // Required for static export
+  },
+}
+
+module.exports = nextConfig
+```
+
+**Note**: This disables:
+- Server-side rendering (SSR)
+- API routes
+- Image optimization (use `unoptimized: true`)
+
+**Workaround**: Use Cloudflare Workers or Pages Functions if server features needed later.
+
+---
+
+## TypeScript Tips
+
+### Path Aliases
+Set up path aliases in `tsconfig.json` to avoid relative import hell:
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["components/*"],
+      "@/lib/*": ["lib/*"]
+    }
+  }
+}
+```
+
+---
+
+## Tailwind CSS
+
+### Custom Colors in Config
+Add custom colors to match design system:
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#2563eb', // Blue accent
+        secondary: '#f8fafc', // Soft gray
+        text: '#111827', // Dark gray
+      },
+    },
+  },
+}
+```
+
+---
+
+## Git & GitHub
+
+### Git Workflow Reminder
+- Always wait for user approval before pushing to GitHub
+- Commit at the end of each completed phase
+- Use descriptive commit messages
+
+---
+
+## Decap CMS
+
+### GitHub OAuth Setup
+**To be documented when implemented**
+
+---
+
+## Cloudflare Pages
+
+### Build Configuration
+**To be documented when implemented**
+
+---
+
+## Performance
+
+### Image Optimization for Static Sites
+**To be documented when implemented**
+
+---
+
+## Markdown Processing
+
+### Recommended Libraries
+**To be documented when implemented**
+
+---
+
+## Common Errors
+
+### Error: [To be populated as errors occur]
+**Problem**:
+**Solution**:
+**Prevention**:
+
+---
+
+## Useful Commands
+
+```bash
+# Development
+npm run dev              # Start dev server
+npm run build            # Build for production
+npm run lint             # Run ESLint
+npm run format           # Format with Prettier
+
+# Git
+git status               # Check status
+git add .                # Stage all changes
+git commit -m "message"  # Commit changes
+git push origin main     # Push to GitHub (WAIT FOR APPROVAL)
+
+# Troubleshooting
+rm -rf node_modules package-lock.json && npm install  # Fresh install
+rm -rf .next             # Clear Next.js cache
+```
+
+---
+
+## Resources
+
+- Next.js Docs: https://nextjs.org/docs
+- Tailwind CSS Docs: https://tailwindcss.com/docs
+- TypeScript Handbook: https://www.typescriptlang.org/docs
+- Decap CMS Docs: https://decapcms.org/docs
+- Cloudflare Pages Docs: https://developers.cloudflare.com/pages
+
+---
+
+## Notes
+- Update this file whenever you solve a non-trivial problem
+- Include both the problem and solution for future reference
+- Add prevention tips where applicable

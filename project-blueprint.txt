@@ -1,0 +1,366 @@
+Project Blueprint: Personal Website (Portfolio + Blog + Apps Hub)
+1️⃣ Project Introduction
+
+Build a personal website that balances professional portfolio presentation with casual personal content. The site includes:
+
+Landing page
+
+About section (bio, resume, travel photos)
+
+Blog (text, images, embedded video)
+
+Applications showcase (external apps hosted separately)
+
+Admin login for content updates
+
+Fully automated CI/CD deployment
+
+100% free hosting
+
+The architecture should prioritize:
+
+Simplicity
+
+Maintainability
+
+Free hosting stability
+
+Resume-strength technical design
+
+Minimal backend management
+
+2️⃣ Product Requirements
+Functional Requirements
+Public Pages
+
+Landing page
+
+About page
+
+Blog listing page
+
+Blog detail page (Markdown-based posts)
+
+Applications showcase page
+
+Static asset gallery (travel folders)
+
+Content Management
+
+Admin login page
+
+Create / edit / delete blog posts
+
+Upload images
+
+Edit About content
+
+Add travel folders
+
+Changes auto-commit to GitHub
+
+Auto-trigger deployment
+
+Deployment
+
+GitHub repository as single source of truth
+
+Auto build and deploy via GitHub Actions
+
+Hosted on Cloudflare Pages
+
+Optional custom domain support
+
+Non-Functional Requirements
+
+Free hosting
+
+Static-first architecture
+
+No traditional backend server required
+
+CI/CD automated
+
+Secure admin authentication
+
+Scalable and low maintenance
+
+Resume-ready architecture
+
+3️⃣ Recommended Tech Stack
+Frontend Framework
+
+Next.js (Static Export Mode)
+
+Why:
+
+Resume strength
+
+SEO friendly
+
+Supports Markdown rendering
+
+Flexible for future expansion
+
+Compatible with static deployment
+
+Hosting
+Primary Hosting
+
+Cloudflare Pages
+
+Why:
+
+Free unlimited static hosting
+
+Global CDN
+
+GitHub integration
+
+Future support for serverless if needed
+
+Strong production reliability
+
+Version Control & CI/CD
+
+GitHub
+
+GitHub repository
+
+GitHub Actions for CI
+
+Cloudflare Pages deployment integration
+
+Content Management
+
+Decap CMS
+
+Git-based CMS
+
+Admin dashboard
+
+Markdown content management
+
+Image uploads
+
+GitHub OAuth login
+
+Automatic commits to repository
+
+Content Storage
+
+Markdown files stored in /content
+
+Images stored in /public/images
+
+Travel folders stored as static directories
+
+No external database
+
+4️⃣ Architecture Overview
+High-Level Architecture
+
+User Browser
+↓
+Cloudflare CDN
+↓
+Static Next.js Site
+↓
+Content from Markdown Files
+↓
+GitHub Repository
+↑
+Decap CMS Admin Panel
+↑
+Authenticated Admin User
+
+Content Workflow
+
+Admin logs in via /admin
+
+Decap CMS authenticates via GitHub OAuth
+
+Admin creates or edits content
+
+CMS commits changes to GitHub repo
+
+GitHub triggers Cloudflare deployment
+
+Site rebuilds automatically
+
+Updated content goes live globally
+
+5️⃣ Repository Structure
+personal-website/
+│
+├── content/
+│   ├── blog/
+│   │    ├── first-post.md
+│   │    └── travel-story.md
+│   │
+│   ├── about/
+│   │    └── bio.md
+│   │
+│   └── travel/
+│        ├── yellowstone/
+│        └── hawaii/
+│
+├── public/
+│   └── images/
+│
+├── pages/
+│   ├── index.tsx
+│   ├── about.tsx
+│   ├── blog/
+│   ├── apps.tsx
+│   └── admin/
+│
+├── admin/
+│   └── config.yml
+│
+├── .github/workflows/
+│   └── deploy.yml
+│
+└── next.config.js
+6️⃣ Deployment Strategy
+CI/CD Flow
+
+Push to main
+
+GitHub Action builds static site
+
+Cloudflare Pages pulls from GitHub
+
+Auto deploy
+
+No manual deployment.
+
+7️⃣ Authentication Strategy
+
+Use GitHub OAuth for Decap CMS login.
+
+No custom password system.
+
+Security Model:
+
+Only authorized GitHub accounts can commit content
+
+Public site remains fully static
+
+8️⃣ Why No Backend Is Required
+
+Because:
+
+Blog content = Markdown files
+
+Images = static assets
+
+CMS = Git-based
+
+Hosting = static CDN
+
+A backend would only be needed for:
+
+User accounts
+
+Comment system
+
+Database-driven content
+
+Private content
+
+These are explicitly out of scope.
+
+9️⃣ Scalability Strategy
+
+This architecture scales well because:
+
+Static delivery via CDN
+
+No runtime execution
+
+No database bottlenecks
+
+No server maintenance
+
+Future expansion options:
+
+Add Cloudflare Functions if needed
+
+Add Supabase for database features
+
+Add analytics integration
+
+Add comment system (e.g., Giscus)
+
+🔟 Resume Positioning
+
+Suggested resume description:
+
+Architected and deployed a personal portfolio and blog using Next.js, Cloudflare Pages, GitHub Actions, and Decap CMS, implementing a static-first architecture with automated CI/CD and Git-based content management.
+
+Demonstrates:
+
+Frontend architecture
+
+CI/CD automation
+
+Cloud deployment
+
+Git-based CMS integration
+
+Static site optimization
+
+11️⃣ Implementation Phases
+
+Phase 1:
+
+Initialize Next.js project
+
+Create page structure
+
+Configure static export
+
+Phase 2:
+
+Integrate Decap CMS
+
+Configure GitHub OAuth
+
+Define content collections
+
+Phase 3:
+
+Connect Cloudflare Pages
+
+Configure build settings
+
+Verify auto deployment
+
+Phase 4:
+
+Add blog rendering
+
+Add image gallery
+
+Polish UI
+
+Phase 5:
+
+Optional custom domain
+
+Optional SEO enhancements
+
+12️⃣ Architectural Principles
+
+Static-first
+
+Git-as-database
+
+Zero-server maintenance
+
+CI/CD automated
+
+Free-tier sustainable
+
+Resume-strength design
