@@ -86,15 +86,23 @@ personal-website/
 - **[PLAN.md](./PLAN.md)** - Detailed implementation plan
 - **[TODO.md](./TODO.md)** - Current phase tasks
 - **[DEBUG_NOTES.md](./DEBUG_NOTES.md)** - Debug tips and solutions
+- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Step-by-step deployment instructions
 
 ## Deployment
 
-The site is automatically deployed to Cloudflare Pages when changes are pushed to the `main` branch.
+The site is configured for automated deployment to Cloudflare Pages. See **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** for complete setup instructions.
 
-1. Push to GitHub
-2. GitHub Actions runs build checks
-3. Cloudflare Pages deploys automatically
-4. Live at `<username>.pages.dev`
+**Quick Overview:**
+1. Create Cloudflare Pages project (one-time setup)
+2. Connect GitHub repository
+3. Configure build settings: `npm run build` → `out/`
+4. Push to `master` → GitHub Actions + Cloudflare auto-deploy
+5. Live at `https://<project-name>.pages.dev`
+
+**CI/CD Pipeline:**
+- ✅ GitHub Actions: Type checking, linting, build verification
+- ✅ Cloudflare Pages: Automatic deployment on push
+- ✅ Preview deployments for PRs
 
 ## Content Management
 

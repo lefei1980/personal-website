@@ -87,29 +87,38 @@
 
 ---
 
-## 🔄 Phase 5: CI/CD & Deployment (NEXT)
+## 🔄 Phase 5: CI/CD & Deployment (IN PROGRESS)
 
-### Tasks Overview
-- [ ] Create Cloudflare account
-- [ ] Create new Cloudflare Pages project
-- [ ] Connect GitHub repository to Cloudflare Pages
-- [ ] Configure build settings:
-  - Build command: `npm run build`
-  - Output directory: `out`
-  - Node version: 18+
-- [ ] Create `.github/workflows/deploy.yml`
-- [ ] Configure GitHub Actions workflow:
-  - Trigger on push to `master`
-  - Run TypeScript type checking
-  - Run linting
-  - Run build
-  - (Optional) Run Lighthouse CI
-- [ ] Set up environment variables if needed
-- [ ] Test deployment by pushing a change
-- [ ] Verify site is live at `<username>.pages.dev`
-- [ ] Configure preview deployments for PRs
-- [ ] Document deployment process in README
-- [ ] Test full workflow: CMS edit → Commit → Auto-deploy
+### ✅ Completed Infrastructure Setup
+- [x] Create `.github/workflows/deploy.yml` - GitHub Actions workflow
+- [x] Configure GitHub Actions workflow:
+  - ✅ Trigger on push to `master`
+  - ✅ Run TypeScript type checking
+  - ✅ Run linting
+  - ✅ Run build
+  - ✅ Upload build artifacts
+- [x] Create comprehensive deployment guide (`DEPLOYMENT_GUIDE.md`)
+- [x] Update README with deployment instructions
+
+### 📋 User Action Items (Follow DEPLOYMENT_GUIDE.md)
+- [ ] **Step 1**: Create Cloudflare account (https://dash.cloudflare.com/sign-up)
+- [ ] **Step 2**: Create new Cloudflare Pages project
+  - [ ] Connect GitHub repository to Cloudflare Pages
+  - [ ] Configure build settings:
+    - Build command: `npm run build`
+    - Output directory: `out`
+    - Node version: 18
+- [ ] **Step 3**: Verify first deployment
+  - [ ] Check build logs
+  - [ ] Visit site at `<project-name>.pages.dev`
+  - [ ] Test all pages work
+- [ ] **Step 4**: GitHub Actions already configured ✅
+- [ ] **Step 5**: Test full CI/CD workflow
+  - [ ] Make a test commit
+  - [ ] Push to master
+  - [ ] Watch GitHub Actions run
+  - [ ] Verify Cloudflare auto-deploys
+  - [ ] Confirm changes appear on live site
 
 ### Acceptance Criteria
 - [ ] Site deploys automatically on push to `master`

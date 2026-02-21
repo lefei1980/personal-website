@@ -18,7 +18,7 @@ export default function PhotoGallery({ location, onClose }: PhotoGalleryProps) {
     fetch('/travel-photos-manifest.json')
       .then(res => res.json())
       .then((manifest: TravelPhotosManifest) => {
-        const folderPhotos = manifest[location.folder] || []
+        const folderPhotos = location.folder ? (manifest[location.folder] || []) : []
         if (folderPhotos.length === 0) {
           // Fallback to placeholder if no photos found
           setPhotos([{
@@ -118,7 +118,7 @@ export default function PhotoGallery({ location, onClose }: PhotoGalleryProps) {
           <p className="text-gray-300 mb-1">{location.description}</p>
           <p className="text-sm text-gray-400">
             {location.type === 'home' ? (
-              <span>🏠 Home • {location.years}</span>
+              <span>🏠 Home • {location.startYear}{location.endYear ? `-${location.endYear}` : '-Present'}</span>
             ) : (
               <span>🌍 {location.country}</span>
             )}
