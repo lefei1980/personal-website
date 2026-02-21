@@ -1,119 +1,107 @@
-# Current Phase: Phase 2.5 - Interactive Travel Map
+# Current Phase: Phase 4 - Decap CMS Integration
 
-**Goal**: Build an interactive world map with clickable location pins and photo galleries on the About page.
+**Goal**: Set up admin panel at /admin for content management with GitHub OAuth authentication.
 
-**Status**: IN PROGRESS
-**Started**: 2026-02-20
+**Status**: PENDING
+**Next**: Awaiting user approval to begin Phase 4
 
 ---
 
 ## Tasks
 
-### ✅ Completed (Phases 0-2)
+### ✅ Completed (Phases 0-3)
 - [x] Project setup and configuration (Phase 0)
 - [x] All core pages created (Phase 1)
 - [x] Navigation and Footer components (Phase 1)
 - [x] UI component library (Phase 2)
 - [x] Light/Dark theme toggle (Phase 2)
-- [x] Git commit and push to GitHub ✅
+- [x] Interactive travel map with EXIF photo dates (Phase 2.5)
+- [x] Markdown content infrastructure with syntax highlighting (Phase 3)
+- [x] Git commit and push (Phase 3) ✅
 
-### 🔄 Phase 2.5: In Progress
+### 📋 Phase 3 Summary (Completed)
 
-#### 1. Install Dependencies
-- [ ] Install `react-leaflet` (React wrapper for Leaflet.js)
-- [ ] Install `leaflet` (map library)
-- [ ] Install photo lightbox library (or build custom)
+#### 1. Install Markdown Dependencies
+- [x] Install `gray-matter` for frontmatter parsing
+- [x] Install `remark` and `remark-html` for Markdown processing
+- [x] Install `remark-gfm` for GitHub-flavored Markdown
+- [x] Install `rehype-highlight` for code syntax highlighting
+- [x] Install `@tailwindcss/typography` for prose styling
+- [x] Install `highlight.js` for syntax highlighting themes
 
-#### 2. Create Location Data Structure
-- [ ] Create `/content/travel/locations.json`
-- [ ] Define location schema (name, type, coordinates, photos, etc.)
-- [ ] Add 3-5 sample locations for testing
-- [ ] Include both "home" and "tourism" pin types
+#### 2. Create Content Directory Structure
+- [x] Create `/content` directory
+- [x] Create `/content/blog/` subdirectory
+- [x] Create `/content/about/` subdirectory
+- [x] Create `/public/images/blog/` for blog images
 
-#### 3. Build TravelMap Component
-- [ ] Create `components/TravelMap.tsx`
-- [ ] Initialize world map with OpenStreetMap tiles
-- [ ] Add custom markers for two pin types:
-  - 🏠 Home/Residence (blue pins)
-  - 🌍 Tourism (red/orange pins)
-- [ ] Add hover tooltips showing location name
-- [ ] Add click handlers to open photo gallery
-- [ ] Style map container (responsive height)
-- [ ] Add dark mode support for map tiles
+#### 3. Create Content Parsing Utilities
+- [x] Create `lib/markdown.ts`
+- [x] Implement `getAllPosts()` function
+- [x] Implement `getPostBySlug()` function
+- [x] Implement `markdownToHtml()` function
+- [x] Add TypeScript types for blog posts
 
-#### 4. Build Photo Gallery/Lightbox
-- [ ] Create `components/PhotoGallery.tsx`
-- [ ] Modal overlay with backdrop
-- [ ] Location info header (name, date, description)
-- [ ] Photo grid/carousel
-- [ ] Full-screen lightbox viewer
-- [ ] Navigation controls (prev/next arrows)
-- [ ] Keyboard navigation (←/→ arrows, Escape)
-- [ ] Mobile swipe support
-- [ ] Close on backdrop click
-- [ ] Dark mode styling
+#### 4. Create Sample Blog Posts
+- [x] Write 3 sample Markdown blog posts
+  - "Welcome to My Blog" (introduction)
+  - "Building Interactive Maps with Leaflet and React" (technical tutorial)
+  - "Photography Tips for Developers" (personal/creative)
+- [x] Include frontmatter (title, date, description, tags)
+- [x] Include various Markdown elements (headings, lists, code blocks, tables)
+- [x] Include code samples with syntax highlighting
 
-#### 5. Add Sample Travel Photos
-- [ ] Create folder structure in `/public/images/travel/`
-- [ ] Add sample photos for test locations
-- [ ] Optimize image sizes
+#### 5. Update Blog Pages
+- [x] Update `/app/blog/page.tsx` to fetch and display real posts
+- [x] Update `/app/blog/[slug]/page.tsx` to render Markdown content
+- [x] Add syntax highlighting with GitHub Dark theme
+- [x] Add proper metadata (title, description)
+- [x] Add date formatting and tag display
+- [x] Add Tailwind prose styling for content
 
-#### 6. Update About Page
-- [ ] Import and add TravelMap component
-- [ ] Replace placeholder travel gallery with map
-- [ ] Keep folder-based gallery below map (dual access)
-- [ ] Add loading state for map
-- [ ] Ensure responsive layout
-
-#### 7. Performance & Polish
-- [ ] Lazy load map library (only on About page)
-- [ ] Lazy load photos (only when gallery opened)
-- [ ] Add loading spinners
-- [ ] Test with 30-50 location markers
-- [ ] Optimize for mobile devices
-- [ ] Add error handling for failed image loads
+#### 6. Polish & Testing
+- [x] Build passes without errors
+- [x] Add error handling for undefined slugs
+- [x] Configure Tailwind typography plugin
+- [x] Dev server running successfully
 
 ---
 
 ## Acceptance Criteria
-- [ ] World map displays correctly on About page
-- [ ] Pins appear at correct geographic coordinates
-- [ ] Two distinct pin types are visible (different colors/icons)
-- [ ] Hover over pin shows location name tooltip
-- [ ] Click pin opens photo gallery modal
-- [ ] Photos display correctly in lightbox
-- [ ] Lightbox navigation works (prev/next/close/keyboard)
-- [ ] Both map and folder gallery lead to same photos
-- [ ] Responsive on mobile and desktop
-- [ ] Works in both light and dark themes
-- [ ] No performance issues with multiple locations
-- [ ] Images lazy load properly
+- [x] Markdown files render correctly as HTML
+- [x] Code blocks have syntax highlighting
+- [x] Frontmatter parsed correctly (title, date, description, tags)
+- [x] Blog listing shows all posts with metadata
+- [x] Blog post URLs work: `/blog/[slug]`
+- [x] Syntax highlighting configured
+- [x] Tailwind prose styling applied
 
 ---
 
-## 🧪 User Testing Checkpoint
-**Before proceeding to Phase 3, user must verify:**
-- [ ] Map loads without errors
-- [ ] Pins show in correct locations worldwide
-- [ ] Pin types are distinguishable (different colors/icons)
-- [ ] Tooltips appear on hover
-- [ ] Click pin → gallery modal opens smoothly
-- [ ] Photos load and display correctly
-- [ ] Lightbox controls work (arrows, escape, click outside)
-- [ ] Test on mobile device/emulator
-- [ ] Test in both light and dark themes
-- [ ] Page performance is acceptable
-- [ ] **USER APPROVAL REQUIRED** to proceed to Phase 3
+## 🧪 User Testing - PASSED ✅
+- [x] Navigate to `/blog` and see all posts listed
+- [x] Click into individual blog posts
+- [x] Verify Markdown renders correctly (headings, lists, code, tables)
+- [x] Test code syntax highlighting
+- [x] Test in both light and dark modes (fixed code block theming)
+- [x] Fixed Next.js 16 async params issue
+- [x] **APPROVED** - Phase 3 complete
 
 ---
 
-## Next Phase Preview
-**Phase 3: Content Infrastructure** will add:
-- Markdown file parsing with gray-matter
-- Blog post rendering with syntax highlighting
-- Real content from .md files
-- Support for embedded images and videos
-- Content utilities in `/lib`
+### 🔄 Phase 4: Decap CMS Integration (Next)
+
+#### Tasks Overview
+- [ ] Install Decap CMS dependencies
+- [ ] Create `/public/admin/` directory
+- [ ] Configure `config.yml` for GitHub backend
+- [ ] Set up collections (blog, about, travel)
+- [ ] Create GitHub OAuth App
+- [ ] Test admin login flow
+- [ ] Test content creation and editing
+- [ ] Verify auto-commit to GitHub
+
+**Ready to begin when approved.**
 
 ---
 

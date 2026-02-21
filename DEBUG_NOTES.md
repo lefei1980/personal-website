@@ -137,8 +137,77 @@ module.exports = {
 
 ## Markdown Processing
 
-### Recommended Libraries
-**To be documented when implemented**
+### Phase 3: Content Infrastructure Setup
+
+**Dependencies Installed**:
+```bash
+npm install gray-matter remark remark-html remark-gfm highlight.js
+npm install -D @tailwindcss/typography
+```
+
+**Libraries Used**:
+- `gray-matter` - Parse frontmatter (YAML metadata in Markdown files)
+- `remark` - Markdown processor
+- `remark-html` - Convert Markdown to HTML
+- `remark-gfm` - GitHub-flavored Markdown (tables, task lists, strikethrough)
+- `highlight.js` - Syntax highlighting for code blocks
+- `@tailwindcss/typography` - Beautiful prose styling with `prose` classes
+
+**File Structure**:
+```
+/content/blog/          # Markdown blog posts
+  post-slug.md          # Each post is a .md file named by slug
+/lib/markdown.ts        # Content parsing utilities
+```
+
+**Frontmatter Format**:
+```markdown
+---
+title: "Post Title"
+date: "2026-02-20"
+description: "Brief description for listing and SEO"
+tags: ["tag1", "tag2"]
+---
+
+# Post content starts here...
+```
+
+**Key Functions** (`lib/markdown.ts`):
+- `getAllPosts()` - Get all posts sorted by date (newest first)
+- `getPostBySlug(slug)` - Get single post with HTML content
+- `markdownToHtml(markdown)` - Convert Markdown string to HTML
+
+**Usage in Pages**:
+```tsx
+// Blog listing page
+const posts = getAllPosts()
+
+// Blog detail page
+const post = await getPostBySlug(params.slug)
+```
+
+**Styling Blog Content**:
+```tsx
+// Use Tailwind prose for automatic Markdown styling
+<div className="prose prose-lg dark:prose-invert max-w-none">
+  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+</div>
+```
+
+**Syntax Highlighting**:
+- Using GitHub Dark theme: `import 'highlight.js/styles/github-dark.css'`
+- Works automatically for code blocks with language specified:
+  ````markdown
+  ```tsx
+  const MyComponent = () => <div>Hello</div>
+  ```
+  ````
+
+**Tips**:
+- Use unique slugs (filename without .md becomes the URL slug)
+- Date format: ISO 8601 (YYYY-MM-DD) for proper sorting
+- Description shows in blog listing cards
+- Tags are optional but recommended for categorization
 
 ---
 

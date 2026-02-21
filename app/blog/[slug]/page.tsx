@@ -1,61 +1,32 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-
-// Mock blog posts data (will be replaced with real Markdown in Phase 3)
-const mockPosts: Record<string, { title: string; date: string; content: string }> = {
-  'getting-started-with-nextjs': {
-    title: 'Getting Started with Next.js 14',
-    date: '2024-02-15',
-    content: `
-# Getting Started with Next.js 14
-
-Next.js 14 introduces powerful new features that make building modern web applications easier than ever.
-
-## App Router
-
-The App Router is the new paradigm for building Next.js applications. It uses React Server Components by default and provides a more intuitive file-based routing system.
-
-## Server Components
-
-Server Components allow you to render components on the server, reducing the amount of JavaScript sent to the client and improving performance.
-
-## Key Features
-
-- **Improved Performance**: Faster page loads and better Core Web Vitals
-- **Better Developer Experience**: Improved error handling and debugging
-- **Enhanced Routing**: Nested layouts, loading states, and error boundaries
-
-This is a sample blog post. In Phase 3, we'll integrate real Markdown rendering!
-    `,
-  },
-  'building-with-typescript': {
-    title: 'Why TypeScript Makes You a Better Developer',
-    date: '2024-02-10',
-    content: `
-# Why TypeScript Makes You a Better Developer
-
-TypeScript has become the de facto standard for building large-scale JavaScript applications.
-
-## Benefits of Type Safety
-
-Type safety catches errors at compile time rather than runtime, saving countless hours of debugging.
-
-## Better IDE Support
-
-With TypeScript, your IDE can provide better autocomplete, refactoring tools, and inline documentation.
-
-This is a sample blog post. Real content coming in Phase 3!
-    `,
-  },
-}
+import { getAllPosts, getPostBySlug } from '@/lib/markdown'
 
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
+}
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = mockPosts[params.slug]
+  const { slug } = await params
+
+  // Handle edge cases where slug might be undefined
+  if (!slug) {
+    return {
+      title: 'Post Not Found',
+    }
+  }
+
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     return {
@@ -65,12 +36,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title} | Blog`,
-    description: post.content.substring(0, 155),
+    description: post.description,
   }
 }
 
-export default function BlogPost({ params }: Props) {
-  const post = mockPosts[params.slug]
+export default async function BlogPost({ params }: Props) {
+  const { slug } = await params
+
+  // Handle edge cases where slug might be undefined
+  if (!slug) {
+    notFound()
+  }
+
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     notFound()
@@ -89,34 +67,43 @@ export default function BlogPost({ params }: Props) {
       {/* Article Header */}
       <article>
         <header className="mb-8">
-          <time className="text-sm text-text-light">{post.date}</time>
-          <h1 className="text-4xl md:text-5xl font-bold text-text mt-2 mb-4">
+          <time className="text-sm text-gray-600 dark:text-gray-400">
+            {formatDate(post.date)}
+          </time>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mt-2 mb-4">
             {post.title}
           </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-400">
+            {post.description}
+          </p>
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {post.tags.map(tag => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </header>
 
         {/* Article Content */}
-        <div className="prose prose-lg max-w-none">
-          <div className="text-text-light whitespace-pre-wrap">
-            {post.content}
-          </div>
-        </div>
+        <div
+          className="prose prose-lg dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
       </article>
-
-      {/* Divider */}
-      <div className="mt-12 pt-8 border-t border-gray-200">
-        <p className="text-text-light text-center">
-          Note: This is a placeholder. In Phase 3, we'll add proper Markdown
-          rendering with syntax highlighting!
-        </p>
-      </div>
     </div>
   )
 }
 
 // Generate static params for all posts
 export async function generateStaticParams() {
-  return Object.keys(mockPosts).map(slug => ({
-    slug,
+  const posts = getAllPosts()
+  return posts.map(post => ({
+    slug: post.slug,
   }))
 }
