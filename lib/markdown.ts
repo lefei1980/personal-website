@@ -8,6 +8,8 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeStringify from 'rehype-stringify'
 
 const postsDirectory = path.join(process.cwd(), 'content/blog')
+const aboutDirectory = path.join(process.cwd(), 'content/about')
+const travelDirectory = path.join(process.cwd(), 'content/travel')
 
 export interface BlogPost {
   slug: string
@@ -107,4 +109,92 @@ export async function markdownToHtml(markdown: string): Promise<string> {
     .process(markdown)
 
   return result.toString()
+}
+
+/**
+ * Get bio content from content/about/bio.md
+ */
+export async function getBio(): Promise<{ title: string; intro: string; content: string } | null> {
+  try {
+    const fullPath = path.join(aboutDirectory, 'bio.md')
+
+    // Check if file exists
+    if (!fs.existsSync(fullPath)) {
+      return null
+    }
+
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data, content } = matter(fileContents)
+
+    // Convert markdown to HTML
+    const processedContent = await markdownToHtml(content)
+
+    return {
+      title: data.title || 'About Me',
+      intro: data.intro || '',
+      content: processedContent,
+    }
+  } catch (error) {
+    console.error('Error reading bio:', error)
+    return null
+  }
+}
+
+/**
+ * Get resume content from content/about/resume.md
+ */
+export async function getResume(): Promise<{ title: string; pdf?: string; content: string } | null> {
+  try {
+    const fullPath = path.join(aboutDirectory, 'resume.md')
+
+    // Check if file exists
+    if (!fs.existsSync(fullPath)) {
+      return null
+    }
+
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data, content } = matter(fileContents)
+
+    // Convert markdown to HTML
+    const processedContent = await markdownToHtml(content)
+
+    return {
+      title: data.title || 'Resume',
+      pdf: data.pdf || undefined,
+      content: processedContent,
+    }
+  } catch (error) {
+    console.error('Error reading resume:', error)
+    return null
+  }
+}
+
+/**
+ * Get all travel locations from content/travel/*.json
+ */
+export function getTravelLocations(): any[] {
+  try {
+    // Check if directory exists
+    if (!fs.existsSync(travelDirectory)) {
+      return []
+    }
+
+    const fileNames = fs.readdirSync(travelDirectory)
+    const locations = fileNames
+      .filter(fileName => fileName.endsWith('.json'))
+      .map(fileName => {
+        const fullPath = path.join(travelDirectory, fileName)
+        const fileContents = fs.readFileSync(fullPath, 'utf8')
+        const location = JSON.parse(fileContents)
+
+        // Add slug from filename
+        const slug = fileName.replace(/\.json$/, '')
+        return { ...location, slug }
+      })
+
+    return locations
+  } catch (error) {
+    console.error('Error reading travel locations:', error)
+    return []
+  }
 }

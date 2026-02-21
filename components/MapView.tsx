@@ -34,6 +34,19 @@ const tourismIcon = new Icon({
 })
 
 export default function MapView({ locations, onLocationClick }: MapViewProps) {
+  // Helper to format coordinates to [lat, lng] array
+  const getCoordinates = (coords: any): [number, number] => {
+    if (Array.isArray(coords)) return coords as [number, number]
+    return [coords.lat, coords.lng]
+  }
+
+  // Helper to format year range for home locations
+  const formatYears = (startYear?: number, endYear?: number) => {
+    if (!startYear) return ''
+    const end = endYear || 'Present'
+    return `${startYear}–${end}`
+  }
+
   return (
     <div className="w-full h-[500px] rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
       <MapContainer
@@ -48,21 +61,29 @@ export default function MapView({ locations, onLocationClick }: MapViewProps) {
         />
         {locations.map(location => (
           <Marker
-            key={location.folder}
-            position={location.coordinates}
+            key={location.folder || location.slug}
+            position={getCoordinates(location.coordinates)}
             icon={location.type === 'home' ? homeIcon : tourismIcon}
-            eventHandlers={{
-              click: () => onLocationClick(location),
-            }}
           >
             <Popup>
-              <div className="text-center">
-                <h3 className="font-semibold text-gray-900">{location.name}</h3>
-                <p className="text-sm text-gray-600">{location.country}</p>
-                <p className="text-xs text-gray-500 mt-1">
-                  {location.type === 'home' ? `🏠 ${location.years}` : `🌍 ${location.country}`}
-                </p>
-                <button className="mt-2 text-xs text-primary hover:underline">
+              <div className="text-center min-w-[200px]">
+                <h3 className="font-semibold text-gray-900 mb-1">{location.name}</h3>
+                <p className="text-sm text-gray-600 mb-2">{location.country}</p>
+                {location.type === 'home' && location.startYear && (
+                  <p className="text-xs text-gray-500 mb-2">
+                    🏠 {formatYears(location.startYear, location.endYear)}
+                  </p>
+                )}
+                {location.description && (
+                  <p className="text-xs text-gray-600 mb-3 italic">{location.description}</p>
+                )}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onLocationClick(location)
+                  }}
+                  className="mt-2 px-4 py-1 text-xs bg-primary text-white rounded hover:bg-primary/90 transition-colors"
+                >
                   View Photos
                 </button>
               </div>

@@ -18,26 +18,19 @@ const MapView = dynamic(() => import('./MapView'), {
 })
 
 interface TravelMapProps {
+  locations: any[]
   onLocationClick: (location: TravelLocation) => void
 }
 
-export default function TravelMap({ onLocationClick }: TravelMapProps) {
+export default function TravelMap({ locations: initialLocations, onLocationClick }: TravelMapProps) {
   const [locations, setLocations] = useState<TravelLocation[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Load location data
-    fetch('/content-travel-locations.json')
-      .then(res => res.json())
-      .then(data => {
-        setLocations(data.locations)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Failed to load locations:', err)
-        setLoading(false)
-      })
-  }, [])
+    // Use provided locations
+    setLocations(initialLocations as TravelLocation[])
+    setLoading(false)
+  }, [initialLocations])
 
   if (loading) {
     return (

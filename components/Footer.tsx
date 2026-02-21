@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">About</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">About</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Personal portfolio showcasing projects, blog posts, and
               applications.
@@ -18,7 +18,7 @@ export default function Footer() {
 
           {/* Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Links</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -49,7 +49,7 @@ export default function Footer() {
 
           {/* Social */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-3">Connect</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">Connect</h3>
             <div className="flex space-x-4">
               <a
                 href="https://github.com/lefei1980"
@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
+        <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
           <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
             © {currentYear} Portfolio. Built with Next.js, TypeScript, and
             Tailwind CSS.

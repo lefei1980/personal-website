@@ -1,14 +1,17 @@
-'use client'
-
-import { useState } from 'react'
 import type { Metadata } from 'next'
 import { Container, Section, Heading, Button, Badge, Card } from '@/components/ui'
-import TravelMap from '@/components/TravelMap'
-import PhotoGallery from '@/components/PhotoGallery'
-import type { TravelLocation } from '@/lib/types'
+import AboutClient from '@/components/AboutClient'
+import { getBio, getResume, getTravelLocations } from '@/lib/markdown'
 
-export default function About() {
-  const [selectedLocation, setSelectedLocation] = useState<TravelLocation | null>(null)
+export const metadata: Metadata = {
+  title: 'About | Portfolio',
+  description: 'Learn more about me, my skills, and my journey',
+}
+
+export default async function About() {
+  const bio = await getBio()
+  const resume = await getResume()
+  const travelLocations = getTravelLocations()
 
   return (
     <>
@@ -17,11 +20,13 @@ export default function About() {
           {/* Header */}
           <div className="mb-12">
             <Heading level="h1" className="mb-4">
-              About Me
+              {bio?.title || 'About Me'}
             </Heading>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
-              Developer, traveler, and continuous learner
-            </p>
+            {bio?.intro && (
+              <p className="text-xl text-gray-600 dark:text-gray-400">
+                {bio.intro}
+              </p>
+            )}
           </div>
 
           {/* Bio Section */}
@@ -29,24 +34,26 @@ export default function About() {
             <Heading level="h2" className="mb-6">
               Bio
             </Heading>
-            <div className="prose prose-lg max-w-none space-y-4">
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                I'm a passionate developer with a love for building elegant
-                solutions to complex problems. With expertise in modern web
-                technologies, I specialize in creating fast, scalable, and
-                user-friendly applications.
-              </p>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                When I'm not coding, you can find me exploring new places,
-                experimenting with new technologies, or sharing what I've learned
-                through blog posts and open-source contributions.
-              </p>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                I believe in continuous learning and the power of the developer
-                community. This website serves as my digital garden where I share
-                my journey, projects, and insights.
-              </p>
-            </div>
+            {bio?.content ? (
+              <div
+                className="prose prose-lg dark:prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: bio.content }}
+              />
+            ) : (
+              <div className="prose prose-lg max-w-none space-y-4">
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  I'm a passionate developer with a love for building elegant
+                  solutions to complex problems. With expertise in modern web
+                  technologies, I specialize in creating fast, scalable, and
+                  user-friendly applications.
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  When I'm not coding, you can find me exploring new places,
+                  experimenting with new technologies, or sharing what I've learned
+                  through blog posts and open-source contributions.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Skills Section */}
@@ -89,18 +96,36 @@ export default function About() {
           {/* Resume Section */}
           <div className="mb-16">
             <Heading level="h2" className="mb-6">
-              Resume
+              {resume?.title || 'Resume'}
             </Heading>
-            <Card hover={false} className="bg-secondary/30 dark:bg-gray-700/30">
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-                Interested in my professional experience? Download my resume or view
-                it online.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button>Download Resume (PDF)</Button>
-                <Button variant="secondary">View Online</Button>
-              </div>
-            </Card>
+            {resume?.content || resume?.pdf ? (
+              <Card hover={false} className="bg-secondary/30 dark:bg-gray-700/30">
+                {resume.content && (
+                  <div
+                    className="prose dark:prose-invert max-w-none mb-6"
+                    dangerouslySetInnerHTML={{ __html: resume.content }}
+                  />
+                )}
+                {resume.pdf && (
+                  <div className="flex flex-wrap gap-4">
+                    <a href={resume.pdf} download>
+                      <Button>Download Resume (PDF)</Button>
+                    </a>
+                  </div>
+                )}
+              </Card>
+            ) : (
+              <Card hover={false} className="bg-secondary/30 dark:bg-gray-700/30">
+                <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                  Interested in my professional experience? Download my resume or view
+                  it online.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Button>Download Resume (PDF)</Button>
+                  <Button variant="secondary">View Online</Button>
+                </div>
+              </Card>
+            )}
           </div>
 
           {/* Travel Map Section */}
@@ -123,44 +148,10 @@ export default function About() {
                 </div>
               </div>
             </div>
-            <TravelMap onLocationClick={setSelectedLocation} />
-          </div>
-
-          {/* Traditional Folder Gallery */}
-          <div>
-            <Heading level="h2" className="mb-6">
-              Photo Folders
-            </Heading>
-            <div className="grid md:grid-cols-3 gap-4 mb-6">
-              {/* Placeholder folder cards */}
-              {['Yellowstone', 'Tokyo', 'Paris', 'Boston', 'Atlanta', 'More...'].map((folder, i) => (
-                <div
-                  key={i}
-                  className="aspect-square bg-secondary dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer group"
-                >
-                  <div className="text-center">
-                    <span className="text-5xl mb-2 block">📁</span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
-                      {folder}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="text-gray-600 dark:text-gray-400 text-center text-sm italic">
-              Click folders to browse photos, or use the interactive map above
-            </p>
+            <AboutClient locations={travelLocations} />
           </div>
         </Section>
       </Container>
-
-      {/* Photo Gallery Modal */}
-      {selectedLocation && (
-        <PhotoGallery
-          location={selectedLocation}
-          onClose={() => setSelectedLocation(null)}
-        />
-      )}
     </>
   )
 }

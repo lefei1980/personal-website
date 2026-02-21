@@ -2,10 +2,12 @@ export interface TravelLocation {
   name: string
   country: string
   type: 'home' | 'tourism'
-  coordinates: [number, number] // [latitude, longitude]
-  years?: string // For home locations - when you lived there
-  description: string
-  folder: string // Also used as unique identifier (no separate id needed)
+  coordinates: { lat: number; lng: number } | [number, number] // Support both formats
+  startYear?: number // For home locations - year you started living there
+  endYear?: number // For home locations - year you left (empty = Present)
+  description?: string
+  folder?: string // Also used as unique identifier (no separate id needed)
+  slug?: string // Generated from filename
 }
 
 export interface TravelData {

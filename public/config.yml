@@ -1,0 +1,188 @@
+# Decap CMS Configuration
+# Documentation: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: github
+  repo: lefei1980/personal-website
+  branch: master
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Local backend for development (uncomment to use)
+local_backend: true
+
+# Media files configuration
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+# Editorial workflow (optional - enables draft/review/ready states)
+# publish_mode: editorial_workflow
+
+# Site URL (update after deployment)
+site_url: https://personal-website.pages.dev
+display_url: https://personal-website.pages.dev
+
+# Collections define the structure of content
+collections:
+  # Blog Posts Collection
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    extension: md
+    format: frontmatter
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Publish Date", name: "date", widget: "datetime", required: true }
+      - {
+          label: "Description",
+          name: "description",
+          widget: "text",
+          required: true,
+          hint: "Brief summary for SEO and previews (150-160 characters)"
+        }
+      - {
+          label: "Tags",
+          name: "tags",
+          widget: "list",
+          required: false,
+          hint: "Add relevant tags (e.g., react, typescript, tutorial)"
+        }
+      - {
+          label: "Featured Image",
+          name: "image",
+          widget: "image",
+          required: false,
+          hint: "Optional cover image for the blog post"
+        }
+      - {
+          label: "Draft",
+          name: "draft",
+          widget: "boolean",
+          default: false,
+          required: false,
+          hint: "Mark as draft to hide from published posts"
+        }
+      - { label: "Body", name: "body", widget: "markdown", required: true }
+
+  # About Page Collection
+  - name: "about"
+    label: "About Page"
+    files:
+      - label: "Bio"
+        name: "bio"
+        file: "content/about/bio.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", default: "About Me" }
+          - { label: "Intro", name: "intro", widget: "text", hint: "Short introduction paragraph" }
+          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Profile Photo", name: "photo", widget: "image", required: false }
+
+      - label: "Resume"
+        name: "resume"
+        file: "content/about/resume.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string", default: "Resume" }
+          - { label: "PDF File", name: "pdf", widget: "file", required: false }
+          - { label: "Body", name: "body", widget: "markdown", hint: "Resume content (if not using PDF)" }
+
+  # Travel Galleries Collection
+  - name: "travel"
+    label: "Travel Galleries"
+    folder: "content/travel"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    extension: json
+    format: json
+    editor:
+      preview: false
+    fields:
+      - { label: "Location Name", name: "name", widget: "string", required: true }
+      - {
+          label: "Type",
+          name: "type",
+          widget: "select",
+          options: ["home", "tourism"],
+          default: "tourism",
+          required: true,
+          hint: "Home = places you lived (shows year range), Tourism = places visited"
+        }
+      - { label: "Country", name: "country", widget: "string", required: true }
+      - {
+          label: "Coordinates",
+          name: "coordinates",
+          widget: "object",
+          required: true,
+          fields: [
+            { label: "Latitude", name: "lat", widget: "number", value_type: "float", required: true },
+            { label: "Longitude", name: "lng", widget: "number", value_type: "float", required: true }
+          ],
+          hint: "Find coordinates on Google Maps (right-click location)"
+        }
+      - {
+          label: "Start Year",
+          name: "startYear",
+          widget: "number",
+          value_type: "int",
+          required: false,
+          min: 1900,
+          max: 2100,
+          hint: "For HOME: Year you started living there (e.g., 2010). For TOURISM: Can leave empty"
+        }
+      - {
+          label: "End Year",
+          name: "endYear",
+          widget: "number",
+          value_type: "int",
+          required: false,
+          min: 1900,
+          max: 2100,
+          hint: "For HOME: Year you left (e.g., 2015). Leave empty for 'Present'. For TOURISM: Not used"
+        }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - {
+          label: "Photo Folder Name",
+          name: "folder",
+          widget: "string",
+          required: false,
+          hint: "Name of the folder in /public/images/travel/ (e.g., 'paris'). Upload photos via GitHub, not CMS."
+        }
+
+  # Apps/Projects Collection
+  - name: "apps"
+    label: "Apps & Projects"
+    folder: "content/apps"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    extension: md
+    format: frontmatter
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Description", name: "description", widget: "text", required: true }
+      - { label: "URL", name: "url", widget: "string", required: false, hint: "Live demo URL" }
+      - { label: "GitHub URL", name: "github", widget: "string", required: false }
+      - {
+          label: "Tech Stack",
+          name: "tech",
+          widget: "list",
+          required: false,
+          hint: "Technologies used (e.g., React, Node.js, PostgreSQL)"
+        }
+      - { label: "Screenshot", name: "image", widget: "image", required: false }
+      - {
+          label: "Status",
+          name: "status",
+          widget: "select",
+          options: ["active", "maintenance", "archived"],
+          default: "active",
+          required: false
+        }
+      - { label: "Details", name: "body", widget: "markdown", required: false }

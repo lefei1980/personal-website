@@ -1,0 +1,12 @@
+{
+  "type": "tourism",
+  "name": "Yellowstone",
+  "country": "The United States",
+  "coordinates": {
+    "lat": 44.615,
+    "lng": -110.6
+  },
+  "folder": "yellowstone",
+  "description": "",
+  "startDate": "2026-02-20T21:48:00.000-05:00"
+}

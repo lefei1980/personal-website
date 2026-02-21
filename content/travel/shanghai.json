@@ -1,0 +1,14 @@
+{
+  "name": "Shanghai",
+  "folder": "/shanghai",
+  "startDate": "",
+  "country": "China",
+  "endYear": 2003,
+  "type": "home",
+  "coordinates": {
+    "lat": 31.23,
+    "lng": 121.47
+  },
+  "description": "China's largest city.",
+  "startYear": 1990
+}

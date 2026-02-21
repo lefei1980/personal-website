@@ -150,6 +150,27 @@ npm run build        # Build static site
 npm run export       # Export to /out directory
 ```
 
+### ⚠️ IMPORTANT: Dev Server Management
+**Before handing over to user for testing:**
+1. **ALWAYS shut down any running dev servers** (`npm run dev`)
+2. **Check for background processes** that might hold port 3000 or file locks
+3. **Clear the `.next/dev/lock` file** if it exists
+4. **Why**: Running servers prevent user from starting their own instance and can cause port conflicts or lock file errors
+
+**To cleanly stop dev servers:**
+```bash
+# Find and kill the process
+taskkill //PID <process_id> //F  # Windows
+kill -9 <process_id>              # Mac/Linux
+
+# Or use Ctrl+C if running in foreground
+```
+
+**Signs a server is still running:**
+- Port 3000 in use error
+- `.next/dev/lock` acquisition error
+- "Another instance of next dev running" message
+
 ### Content Updates (via CMS)
 1. Navigate to `/admin`
 2. Authenticate with GitHub
@@ -225,9 +246,9 @@ npm run type-check   # Verify TypeScript types
 
 ## Current Project Status
 
-- **Current Phase**: Phase 2 - Styling & UI Polish
-- **Completed Phases**: Phase 0 (Setup), Phase 1 (Core Pages)
-- **Next Phase**: Phase 2.5 - Interactive Travel Map
+- **Current Phase**: Phase 4 - Decap CMS Integration (Testing)
+- **Completed Phases**: Phase 0 (Setup), Phase 1 (Core Pages), Phase 2 (UI Polish), Phase 2.5 (Travel Map), Phase 3 (Markdown)
+- **Next Phase**: Phase 5 - CI/CD & Deployment
 
 ## Reference Links
 
