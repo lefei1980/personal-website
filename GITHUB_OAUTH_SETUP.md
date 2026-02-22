@@ -257,3 +257,4 @@ If GitHub OAuth seems too complex right now, you can skip it and:
 ---
 
 **Questions?** Check Decap CMS docs: https://decapcms.org/docs/authentication-backends/
+# OAuth configured and tested
