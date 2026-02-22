@@ -281,6 +281,76 @@ rm -rf .next             # Clear Next.js cache
 
 ---
 
+## GitHub OAuth & CMS Production Setup
+
+### Issue: Railway OAuth Provider ORIGINS Format Error
+**Problem**: Deployed OAuth provider to Railway but got error:
+```
+process.env.ORIGINS MUST be comma separated list
+```
+
+**Cause**: The `ORIGINS` environment variable expects domain names only (not full URLs)
+
+**Solution**:
+- ❌ Wrong: `https://970fd91b.personal-website-1mu.pages.dev,http://localhost:3000`
+- ✅ Correct: `970fd91b.personal-website-1mu.pages.dev,localhost:3000`
+
+**Required Railway Environment Variables**:
+```
+OAUTH_CLIENT_ID = [GitHub OAuth App Client ID]
+OAUTH_CLIENT_SECRET = [GitHub OAuth App Client Secret]
+GIT_HOSTNAME = https://github.com
+ORIGINS = your-domain.pages.dev,localhost:3000
+```
+
+**Lesson**: OAuth provider regex expects domain format, not full URLs with protocol.
+
+---
+
+### Issue: Cloudflare Pages Aggressive Edge Caching
+**Problem**: Config files and new files not updating on deployed site despite successful builds. Symptoms:
+- Build logs show success: "Deployed 119 files"
+- Files correct locally in `out/` directory
+- Live site serves old versions of updated files
+- New files return 404 on live site
+- Even cache-busting URL parameters don't work
+
+**Attempted Solutions** (all failed):
+1. ✗ Hard refresh (Ctrl+Shift+R)
+2. ✗ Cache-busting URL parameters (`?v=12345`)
+3. ✗ Force redeployment with dummy commits
+4. ✗ Delete `out/` directory and rebuild
+5. ✗ Change build output directory setting
+
+**Root Cause**: Cloudflare Pages edge cache serving stale deployment with no accessible purge option on free tier
+
+**Workarounds**:
+1. **Delete and recreate Cloudflare Pages project** - Guaranteed fix but changes deployment URL
+2. **Wait for cache expiration** - Could take days/weeks (not reliable)
+3. **Use custom domain** - New domain bypasses old cache
+4. **Skip production CMS for now** - Use local editing, revisit later
+
+**Current Status**: Unresolved - using local editing for content management until custom domain setup
+
+**Prevention**:
+- Consider paid Cloudflare plan with cache purge access
+- Or use Netlify/Vercel which have better cache invalidation
+- For critical config changes, test with custom domain from start
+
+---
+
+### Issue: Next.js Lint Command Fails
+**Problem**: `npm run lint` fails with error:
+```
+Invalid project directory provided, no such directory: .../lint
+```
+
+**Temporary Solution**: Disabled lint step in GitHub Actions workflow (type-check still runs)
+
+**Status**: Low priority - type checking catches most issues
+
+---
+
 ## Resources
 
 - Next.js Docs: https://nextjs.org/docs
