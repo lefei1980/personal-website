@@ -10,6 +10,7 @@ import rehypeStringify from 'rehype-stringify'
 const postsDirectory = path.join(process.cwd(), 'content/blog')
 const aboutDirectory = path.join(process.cwd(), 'content/about')
 const travelDirectory = path.join(process.cwd(), 'content/travel')
+const appsDirectory = path.join(process.cwd(), 'content/apps')
 
 export interface BlogPost {
   slug: string
@@ -196,6 +197,62 @@ export function getTravelLocations(): any[] {
     return locations
   } catch (error) {
     console.error('Error reading travel locations:', error)
+    return []
+  }
+}
+
+export interface App {
+  slug: string
+  title: string
+  description: string
+  url?: string
+  github?: string
+  tech?: string[]
+  image?: string
+  status?: 'active' | 'maintenance' | 'archived'
+  content?: string
+}
+
+/**
+ * Get all apps from content/apps/*.md
+ */
+export async function getAllApps(): Promise<App[]> {
+  try {
+    // Check if directory exists
+    if (!fs.existsSync(appsDirectory)) {
+      return []
+    }
+
+    const fileNames = fs.readdirSync(appsDirectory)
+    const allAppsData = await Promise.all(
+      fileNames
+        .filter(fileName => fileName.endsWith('.md'))
+        .map(async fileName => {
+          const slug = fileName.replace(/\.md$/, '')
+          const fullPath = path.join(appsDirectory, fileName)
+          const fileContents = fs.readFileSync(fullPath, 'utf8')
+          const { data, content } = matter(fileContents)
+
+          // Convert markdown content to HTML
+          const processedContent = await markdownToHtml(content)
+
+          return {
+            slug,
+            title: data.title || slug,
+            description: data.description || '',
+            url: data.url,
+            github: data.github,
+            tech: data.tech || [],
+            image: data.image,
+            status: data.status || 'active',
+            content: processedContent,
+          }
+        })
+    )
+
+    return allAppsData
+  } catch (error) {
+    console.error('Error reading apps:', error)
     return []
   }
 }
