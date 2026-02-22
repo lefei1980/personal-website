@@ -5,11 +5,11 @@ backend:
   name: github
   repo: lefei1980/personal-website
   branch: master
-  base_url: https://api.netlify.com
+  base_url: https://netlify-cms-github-oauth-provider-production-a770.up.railway.app
   auth_endpoint: auth
 
-# Local backend for development (uncomment to use)
-local_backend: true
+# Local backend for development (uncomment when using npm run dev)
+# local_backend: true
 
 # Media files configuration
 media_folder: "public/images/uploads"
@@ -19,8 +19,8 @@ public_folder: "/images/uploads"
 # publish_mode: editorial_workflow
 
 # Site URL (update after deployment)
-site_url: https://personal-website.pages.dev
-display_url: https://personal-website.pages.dev
+site_url: https://970fd91b.personal-website-1mu.pages.dev
+display_url: https://970fd91b.personal-website-1mu.pages.dev
 
 # Collections define the structure of content
 collections:
