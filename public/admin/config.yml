@@ -18,9 +18,9 @@ public_folder: "/images/uploads"
 # Editorial workflow (optional - enables draft/review/ready states)
 # publish_mode: editorial_workflow
 
-# Site URL (update after deployment)
-site_url: https://970fd91b.personal-website-1mu.pages.dev
-display_url: https://970fd91b.personal-website-1mu.pages.dev
+# Site URL (stable production URL)
+site_url: https://personal-website-1mu.pages.dev
+display_url: https://personal-website-1mu.pages.dev
 
 # Collections define the structure of content
 collections:
