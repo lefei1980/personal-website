@@ -1,15 +1,15 @@
-# Current Phase: Phase 5 - CI/CD & Deployment
+# Current Phase: Phase 6 - Content Population
 
-**Goal**: Set up automated deployment pipeline to Cloudflare Pages with GitHub Actions.
+**Goal**: Populate the site with real content (bio, resume, travel photos, blog posts, apps).
 
-**Status**: PENDING
-**Next**: Cloudflare Pages setup and GitHub Actions configuration
+**Status**: IN PROGRESS
+**Next**: Write content and upload media using the working CMS
 
 ---
 
 ## Tasks
 
-### ✅ Completed Phases (0-4)
+### ✅ Completed Phases (0-5)
 - [x] Project setup and configuration (Phase 0)
 - [x] All core pages created (Phase 1)
 - [x] Navigation and Footer components (Phase 1)
@@ -17,7 +17,8 @@
 - [x] Light/Dark theme toggle (Phase 2)
 - [x] Interactive travel map with EXIF photo dates (Phase 2.5)
 - [x] Markdown content infrastructure with syntax highlighting (Phase 3)
-- [x] **Decap CMS Integration (Phase 4)** ✅
+- [x] Decap CMS Integration (Phase 4)
+- [x] **CI/CD & Deployment (Phase 5)** ✅
 
 ---
 
@@ -87,60 +88,114 @@
 
 ---
 
-## 🔄 Phase 5: CI/CD & Deployment (IN PROGRESS)
+## 📋 Phase 5 Summary (COMPLETED ✅)
 
-### ✅ Completed Infrastructure Setup
-- [x] Create `.github/workflows/deploy.yml` - GitHub Actions workflow
-- [x] Configure GitHub Actions workflow:
-  - ✅ Trigger on push to `master`
-  - ✅ Run TypeScript type checking
-  - ✅ Run linting
-  - ✅ Run build
-  - ✅ Upload build artifacts
-- [x] Create comprehensive deployment guide (`DEPLOYMENT_GUIDE.md`)
-- [x] Update README with deployment instructions
+### What Was Built
+- ✅ **GitHub Actions workflow** - Automated build and type checking
+- ✅ **Cloudflare Pages deployment** - Connected to GitHub repository
+- ✅ **Production OAuth setup** - GitHub OAuth working with stable production URL
+- ✅ **Automated CI/CD pipeline** - CMS → GitHub → Build → Deploy workflow
+- ✅ **Stable production URL** - Using `personal-website-1mu.pages.dev`
 
-### 📋 User Action Items (Follow DEPLOYMENT_GUIDE.md)
-- [ ] **Step 1**: Create Cloudflare account (https://dash.cloudflare.com/sign-up)
-- [ ] **Step 2**: Create new Cloudflare Pages project
-  - [ ] Connect GitHub repository to Cloudflare Pages
-  - [ ] Configure build settings:
-    - Build command: `npm run build`
-    - Output directory: `out`
-    - Node version: 18
-- [ ] **Step 3**: Verify first deployment
-  - [ ] Check build logs
-  - [ ] Visit site at `<project-name>.pages.dev`
-  - [ ] Test all pages work
-- [ ] **Step 4**: GitHub Actions already configured ✅
-- [ ] **Step 5**: Test full CI/CD workflow
-  - [ ] Make a test commit
-  - [ ] Push to master
-  - [ ] Watch GitHub Actions run
-  - [ ] Verify Cloudflare auto-deploys
-  - [ ] Confirm changes appear on live site
+### Key Achievements
+- Full end-to-end workflow: Edit in CMS → Auto-commit → Auto-build → Auto-deploy
+- Production site live at: `https://personal-website-1mu.pages.dev`
+- OAuth authentication working (no more white screens!)
+- Content changes appear on live site within 2-4 minutes
+- GitHub Actions validates TypeScript and builds on every push
+
+### Issues Resolved During Phase 5
+1. ✅ OAuth white screen issue → Fixed by using stable production URL instead of preview URLs
+2. ✅ Railway ORIGINS configuration → Updated to match production domain
+3. ✅ CMS changes not appearing → Understood expected deployment timeline (2-4 min)
+4. ✅ Preview URL confusion → Documented difference between preview and production URLs
+
+### Testing Results
+- ✅ Site deploys automatically on push to master
+- ✅ Build passes all checks (TypeScript, build)
+- ✅ Site accessible at production URL
+- ✅ CMS edit workflow functional
+- ✅ OAuth login works consistently
+- ✅ Changes propagate to live site
+- ✅ **USER APPROVED** - Phase 5 complete
+
+---
+
+## 🔄 Phase 6: Content Population (IN PROGRESS)
+
+**Goal**: Populate the site with real, meaningful content to make it ready for public launch.
+
+### 📝 Content Writing Tasks
+- [ ] **About Page**
+  - [ ] Write complete bio using CMS
+  - [ ] Upload professional profile photo
+  - [ ] Upload resume (PDF) or write embedded resume content
+  - [ ] Review and polish bio content
+
+- [ ] **Travel Gallery**
+  - [ ] Organize travel photos (minimum 2 locations)
+  - [ ] Optimize images for web (compress if needed)
+  - [ ] Upload photos to GitHub (`/public/images/travel/[location]/`)
+  - [ ] Create travel location metadata via CMS
+  - [ ] Test map pins and photo galleries work
+
+- [ ] **Blog Posts**
+  - [ ] Write 3-5 initial blog posts via CMS
+  - [ ] Add featured images for blog posts
+  - [ ] Add relevant tags to each post
+  - [ ] Review formatting and code examples
+  - [ ] Publish posts (set draft: false)
+
+- [ ] **Apps/Projects Page**
+  - [ ] Add external app links and descriptions via CMS
+  - [ ] Upload screenshots/images for each project
+  - [ ] Add tech stack details
+  - [ ] Set appropriate status (active/maintenance/archived)
+
+### 🎨 Visual Assets
+- [ ] Create favicon and app icons
+  - [ ] 16x16, 32x32, 180x180 (Apple touch icon)
+  - [ ] Place in `/public` directory
+- [ ] Create Open Graph share images
+  - [ ] Default site image (1200x630)
+  - [ ] Optional: per-page share images
+- [ ] Optimize all images (compress, resize)
+
+### ✅ Content Review
+- [ ] Proofread all content for typos
+- [ ] Check all internal links work
+- [ ] Verify all images load correctly
+- [ ] Test content on mobile devices
+- [ ] Ensure consistent tone and voice
+- [ ] Review markdown formatting
 
 ### Acceptance Criteria
-- [ ] Site deploys automatically on push to `master`
-- [ ] Build passes all checks (TypeScript, lint, build)
-- [ ] Site accessible at Cloudflare Pages URL
-- [ ] Preview deployments work for PRs
-- [ ] Full CMS → GitHub → Deploy workflow functional
+- [ ] About page has complete bio with photo
+- [ ] Resume is viewable/downloadable
+- [ ] Travel gallery has at least 2 collections with photos
+- [ ] Blog has at least 3 published posts
+- [ ] Apps page lists your projects
+- [ ] All images optimized and loading properly
+- [ ] No placeholder/dummy content remaining
+- [ ] Content is proofread and polished
 
-### 🧪 User Testing Checkpoint - END-TO-END
-- [ ] Visit live Cloudflare Pages URL
-- [ ] Test all pages work in production
-- [ ] Make a content change via CMS
-- [ ] Wait for auto-deployment
-- [ ] Verify change appears on live site
-- [ ] Check build logs in Cloudflare dashboard
-- [ ] Test on mobile device (real phone/tablet)
-- [ ] Share URL with a friend/colleague for external testing
-- [ ] **USER REVIEW**: Full production workflow must be functional
+### 🧪 User Testing Checkpoint
+- [ ] Review all content for accuracy and tone
+- [ ] Test site on mobile and desktop
+- [ ] Share with 1-2 trusted people for feedback
+- [ ] Fix any issues found during review
+- [ ] **USER REVIEW**: Content must be production-ready before Phase 7
 
 ---
 
 ## Notes
+
+### Phase 5 Learnings
+- **Cloudflare URLs**: Use stable production URL (`personal-website-1mu.pages.dev`), NOT preview URLs with random hashes
+- **OAuth configuration**: Railway `ORIGINS` must match CMS `site_url` exactly (domain only, no `https://`)
+- **Deployment timeline**: CMS publish → 2-4 minutes → Live site update
+- **White screen fix**: OAuth issues come from URL mismatches between CMS config and OAuth provider
+- **Expected workflow**: CMS edit → GitHub commit → GitHub Actions build → Cloudflare deploy → Live
 
 ### Phase 4 Learnings
 - CMS workflow: Upload photos via GitHub → Create location metadata via CMS
@@ -149,26 +204,13 @@
 - Separate concerns: Server components for data fetching, client components for interactivity
 - Always test dark mode alongside light mode
 
-### For Phase 5
-- Branch strategy: Main branch (`master`) for production
-- CMS will need GitHub OAuth for production (currently using local backend)
-- Consider adding environment variables for API keys if needed
-- Test deployment thoroughly before making site public
+### For Phase 6
+- Content is king: Focus on quality over quantity
+- Use CMS for all content editing (bio, resume, blog posts, travel locations)
+- Optimize images before uploading (compress, resize)
+- Test content on real mobile devices, not just browser DevTools
+- Consider adding 1-2 blog posts per week to build content library
 
 ---
 
-## GitHub OAuth Setup (Optional - After Phase 5)
-
-Once site is deployed, you can enable production CMS access:
-
-1. Create GitHub OAuth App at https://github.com/settings/developers
-2. Configure OAuth credentials in Cloudflare (or use Netlify Identity)
-3. Update `public/config.yml`: Set `local_backend: false`
-4. Test CMS login on live site
-5. Verify auto-commits work
-
-**For now**: Local backend mode is sufficient for development
-
----
-
-**Current Status**: Phase 4 complete ✅ | Phase 5 ready to begin
+**Current Status**: Phase 5 complete ✅ | Phase 6 in progress - Infrastructure done, time to create content!

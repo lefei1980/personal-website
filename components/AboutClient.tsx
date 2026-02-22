@@ -35,37 +35,8 @@ export default function AboutClient({ locations }: AboutClientProps) {
     <>
       <TravelMap locations={locations} onLocationClick={setSelectedLocation} />
 
-      {/* Photo Folders - Same data as map pins */}
-      {locations && locations.length > 0 && (
-        <div className="mt-16">
-          <Heading level="h2" className="mb-6">
-            Photo Folders
-          </Heading>
-          <div className="grid md:grid-cols-3 gap-4 mb-6">
-            {locations
-              .filter((loc: any) => loc.folder) // Only show locations with photo folders
-              .map((location: any, i: number) => (
-                <div
-                  key={location.slug || i}
-                  onClick={() => handleFolderClick(location)}
-                  className="aspect-square bg-secondary dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer group"
-                >
-                  <div className="text-center">
-                    <span className="text-5xl mb-2 block">
-                      {location.type === 'home' ? '🏠' : '📁'}
-                    </span>
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-gray-100">
-                      {location.name}
-                    </span>
-                  </div>
-                </div>
-              ))}
-          </div>
-          <p className="text-gray-600 dark:text-gray-400 text-center text-sm italic">
-            Click folders to browse photos, or use the interactive map above
-          </p>
-        </div>
-      )}
+      {/* Photo Folders - Hidden per user request to keep interface clean */}
+      {/* Users can click map pins to view photos directly */}
 
       {/* Photo Gallery Modal */}
       {selectedLocation && (

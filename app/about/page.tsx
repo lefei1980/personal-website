@@ -34,30 +34,46 @@ export default async function About() {
             <Heading level="h2" className="mb-6">
               Bio
             </Heading>
-            {bio?.content ? (
-              <div
-                className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: bio.content }}
-              />
-            ) : (
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                  I'm a passionate developer with a love for building elegant
-                  solutions to complex problems. With expertise in modern web
-                  technologies, I specialize in creating fast, scalable, and
-                  user-friendly applications.
-                </p>
-                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                  When I'm not coding, you can find me exploring new places,
-                  experimenting with new technologies, or sharing what I've learned
-                  through blog posts and open-source contributions.
-                </p>
-              </div>
-            )}
+            <div className="relative">
+              {/* Profile Photo - floats left with text wrapping around it */}
+              {bio?.photo && (
+                <div className="float-left mr-6 mb-4">
+                  <img
+                    src={bio.photo}
+                    alt="Profile"
+                    className="w-40 h-40 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700 shadow-lg"
+                  />
+                </div>
+              )}
+
+              {bio?.content ? (
+                <div
+                  className="prose prose-lg dark:prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{ __html: bio.content }}
+                />
+              ) : (
+                <div className="prose prose-lg max-w-none space-y-4">
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    I'm a passionate developer with a love for building elegant
+                    solutions to complex problems. With expertise in modern web
+                    technologies, I specialize in creating fast, scalable, and
+                    user-friendly applications.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    When I'm not coding, you can find me exploring new places,
+                    experimenting with new technologies, or sharing what I've learned
+                    through blog posts and open-source contributions.
+                  </p>
+                </div>
+              )}
+
+              {/* Clear float */}
+              <div className="clear-both"></div>
+            </div>
           </div>
 
-          {/* Skills Section */}
-          <div className="mb-16">
+          {/* Skills Section - Hidden per user request */}
+          {/* <div className="mb-16">
             <Heading level="h2" className="mb-6">
               Skills & Technologies
             </Heading>
@@ -91,10 +107,10 @@ export default async function About() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          {/* Resume Section */}
-          <div className="mb-16">
+          {/* Resume Section - Hidden per user request */}
+          {/* <div className="mb-16">
             <Heading level="h2" className="mb-6">
               {resume?.title || 'Resume'}
             </Heading>
@@ -126,7 +142,7 @@ export default async function About() {
                 </div>
               </Card>
             )}
-          </div>
+          </div> */}
 
           {/* Travel Map Section */}
           <div className="mb-16">

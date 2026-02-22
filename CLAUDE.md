@@ -246,9 +246,10 @@ npm run type-check   # Verify TypeScript types
 
 ## Current Project Status
 
-- **Current Phase**: Phase 4 - Decap CMS Integration (Testing)
-- **Completed Phases**: Phase 0 (Setup), Phase 1 (Core Pages), Phase 2 (UI Polish), Phase 2.5 (Travel Map), Phase 3 (Markdown)
-- **Next Phase**: Phase 5 - CI/CD & Deployment
+- **Current Phase**: Phase 6 - Content Population
+- **Completed Phases**: Phase 0 (Setup), Phase 1 (Core Pages), Phase 2 (UI Polish), Phase 2.5 (Travel Map), Phase 3 (Markdown), Phase 4 (CMS Integration), Phase 5 (CI/CD & Deployment)
+- **Next Phase**: Phase 7 - Enhancements & Polish
+- **Production Site**: https://personal-website-1mu.pages.dev
 
 ## Reference Links
 

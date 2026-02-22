@@ -307,6 +307,85 @@ ORIGINS = your-domain.pages.dev,localhost:3000
 
 ---
 
+### Issue: OAuth White Screen After Login (SOLVED ✅)
+**Problem**: After successfully authenticating with GitHub OAuth, the callback URL shows a white screen instead of redirecting back to the CMS admin interface.
+
+**Symptoms**:
+- Login with GitHub works
+- Redirected to OAuth provider callback URL: `https://netlify-cms-github-oauth-provider-production-a770.up.railway.app/callback?code=...`
+- Blank white screen appears
+- CMS doesn't load
+
+**Root Cause**: URL mismatch between CMS config and Railway OAuth provider
+
+Cloudflare Pages creates two types of URLs:
+1. **Preview URLs**: `[random-hash].personal-website-1mu.pages.dev` (changes every deployment)
+2. **Production URL**: `personal-website-1mu.pages.dev` (stable across deployments)
+
+When CMS config uses preview URLs, the OAuth flow breaks because:
+- Each deployment creates a new preview URL
+- Railway `ORIGINS` environment variable doesn't include the new URL
+- OAuth callback fails due to CORS/origin mismatch
+- Result: white screen
+
+**Solution**: Use stable production URL in CMS config
+
+1. **Update CMS config files** (`public/config.yml` and `public/admin/config.yml`):
+   ```yaml
+   # Use stable production URL (no random hash)
+   site_url: https://personal-website-1mu.pages.dev
+   display_url: https://personal-website-1mu.pages.dev
+   ```
+
+2. **Update Railway `ORIGINS` environment variable**:
+   ```
+   personal-website-1mu.pages.dev,localhost:3000
+   ```
+   (Note: Domain only, no `https://` prefix)
+
+3. **Commit and deploy changes**
+
+4. **Always access CMS via production URL**:
+   - ✅ Correct: `https://personal-website-1mu.pages.dev/admin`
+   - ❌ Wrong: `https://[random-hash].personal-website-1mu.pages.dev/admin`
+
+**Result**: OAuth flow works consistently, no more white screens
+
+**Prevention**:
+- Never use preview URLs in CMS config
+- Railway ORIGINS must match the CMS config site_url
+- For custom domains, update both config and Railway ORIGINS accordingly
+
+---
+
+### Issue: CMS Changes Not Appearing on Live Site
+**Problem**: After editing content in CMS and clicking "Publish", changes don't appear on the live site immediately.
+
+**Cause**: Not actually an issue - this is expected behavior for static sites
+
+**Explanation**: The site is statically generated, so content is baked into HTML at build time. Changes require a full rebuild and redeployment.
+
+**Expected Timeline** (after clicking "Publish" in CMS):
+1. **~30 seconds**: CMS commits changes to GitHub
+2. **~1-2 minutes**: GitHub Actions builds static site
+3. **~30 seconds**: Cloudflare deploys new build
+4. **Total: 2-4 minutes** from publish to live
+
+**Solution**: Be patient and wait for deployment to complete
+
+**How to Check**:
+- Monitor Cloudflare Pages dashboard for deployment status
+- Look for new deployment after CMS commit
+- Once deployment shows "Success", hard refresh (`Ctrl + Shift + R`)
+
+**Tips**:
+- Don't expect instant updates (this isn't a dynamic CMS)
+- Check Cloudflare dashboard if unsure
+- Hard refresh after deployment completes
+- Use browser DevTools Network tab to verify you're not seeing cached content
+
+---
+
 ### Issue: Cloudflare Pages Aggressive Edge Caching
 **Problem**: Config files and new files not updating on deployed site despite successful builds. Symptoms:
 - Build logs show success: "Deployed 119 files"
@@ -365,3 +444,54 @@ Invalid project directory provided, no such directory: .../lint
 - Update this file whenever you solve a non-trivial problem
 - Include both the problem and solution for future reference
 - Add prevention tips where applicable
+
+---
+
+## CMS Image Upload & Profile Photo
+
+### Profile Photo Feature
+**Location**: About page, Bio section  
+**CMS Field**: About Page → Bio → Profile Photo  
+**Storage**: `public/images/uploads/` (configured in `config.yml`)
+
+**How It Works**:
+1. In CMS Admin (`/admin`), navigate to "About Page" → "Bio"
+2. Click "Profile Photo" → "Choose an image"
+3. Upload image from local computer (drag & drop or browse)
+4. Save the bio - CMS commits both `bio.md` and the image to GitHub
+5. Image displays as 160x160px circular photo at top-left of bio
+6. Bio text wraps around the photo
+
+**Display Implementation**:
+- Photo floats left with `float-left` CSS
+- Styled as circular with `rounded-full` Tailwind class
+- Object-fit: cover ensures proper cropping within circle
+- Border and shadow for visual polish
+- Text automatically wraps around using CSS float behavior
+
+**Image Preparation Tips**:
+- **Best size**: 400x400px or larger (will be displayed at 160x160px for retina quality)
+- **Format**: JPG or PNG
+- **Subject position**: Keep face/subject centered - image will be cropped to circle
+- **Pre-crop**: For best results, crop to square before uploading
+- **File size**: Keep under 500KB for fast loading
+
+**Troubleshooting**:
+- **"Choose an image" does nothing**: Ensure you're logged in via GitHub OAuth
+- **Image not uploading**: Check browser console for errors
+- **Image not showing**: Verify image path in `bio.md` frontmatter starts with `/images/uploads/`
+- **Image not circular**: CSS uses `rounded-full` + `object-cover` for circular crop
+
+**Config Reference** (`public/config.yml`):
+```yaml
+media_folder: "public/images/uploads"  # Where uploads are stored
+public_folder: "/images/uploads"        # Public URL path
+```
+
+**Code References**:
+- CMS config: `public/config.yml` (line 83: photo field)
+- Data loading: `lib/markdown.ts` (getBio() includes photo field)
+- Display: `app/about/page.tsx` (Bio section with floating photo)
+
+---
+

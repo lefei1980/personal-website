@@ -114,7 +114,7 @@ export async function markdownToHtml(markdown: string): Promise<string> {
 /**
  * Get bio content from content/about/bio.md
  */
-export async function getBio(): Promise<{ title: string; intro: string; content: string } | null> {
+export async function getBio(): Promise<{ title: string; intro: string; content: string; photo?: string } | null> {
   try {
     const fullPath = path.join(aboutDirectory, 'bio.md')
 
@@ -133,6 +133,7 @@ export async function getBio(): Promise<{ title: string; intro: string; content:
       title: data.title || 'About Me',
       intro: data.intro || '',
       content: processedContent,
+      photo: data.photo || undefined,
     }
   } catch (error) {
     console.error('Error reading bio:', error)
