@@ -11,6 +11,7 @@ const postsDirectory = path.join(process.cwd(), 'content/blog')
 const aboutDirectory = path.join(process.cwd(), 'content/about')
 const travelDirectory = path.join(process.cwd(), 'content/travel')
 const appsDirectory = path.join(process.cwd(), 'content/apps')
+const homeDirectory = path.join(process.cwd(), 'content/home')
 
 export interface BlogPost {
   slug: string
@@ -213,6 +214,34 @@ export interface App {
   content?: string
 }
 
+export interface HomeContent {
+  name: string
+  tagline: string
+  featured: {
+    about: {
+      emoji: string
+      title: string
+      description: string
+    }
+    blog: {
+      emoji: string
+      title: string
+      description: string
+    }
+    apps: {
+      emoji: string
+      title: string
+      description: string
+    }
+  }
+  cta: {
+    heading: string
+    description: string
+    github?: string
+    email?: string
+  }
+}
+
 /**
  * Get all apps from content/apps/*.md
  */
@@ -254,5 +283,41 @@ export async function getAllApps(): Promise<App[]> {
   } catch (error) {
     console.error('Error reading apps:', error)
     return []
+  }
+}
+
+/**
+ * Get home page content from content/home/home.md
+ */
+export async function getHomeContent(): Promise<HomeContent | null> {
+  try {
+    const fullPath = path.join(homeDirectory, 'home.md')
+
+    // Check if file exists
+    if (!fs.existsSync(fullPath)) {
+      return null
+    }
+
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    const { data } = matter(fileContents)
+
+    return {
+      name: data.name || 'Your Name',
+      tagline: data.tagline || '',
+      featured: data.featured || {
+        about: { emoji: '👤', title: 'About Me', description: '' },
+        blog: { emoji: '📝', title: 'Blog', description: '' },
+        apps: { emoji: '🚀', title: 'Applications', description: '' },
+      },
+      cta: data.cta || {
+        heading: "Let's Connect",
+        description: '',
+        github: '',
+        email: '',
+      },
+    }
+  } catch (error) {
+    console.error('Error reading home content:', error)
+    return null
   }
 }

@@ -70,6 +70,50 @@ collections:
         }
       - { label: "Body", name: "body", widget: "markdown", required: true }
 
+  # Home Page Collection
+  - name: "home"
+    label: "Home Page"
+    files:
+      - label: "Home Content"
+        name: "home"
+        file: "content/home/home.md"
+        fields:
+          - { label: "Name", name: "name", widget: "string", required: true, hint: "Your name (e.g., 'Jane Doe')" }
+          - { label: "Tagline", name: "tagline", widget: "text", required: true, hint: "Short introduction (2-3 sentences)" }
+          - label: "Featured Cards"
+            name: "featured"
+            widget: "object"
+            fields:
+              - label: "About Card"
+                name: "about"
+                widget: "object"
+                fields:
+                  - { label: "Emoji", name: "emoji", widget: "string", default: "👤" }
+                  - { label: "Title", name: "title", widget: "string", default: "About Me" }
+                  - { label: "Description", name: "description", widget: "text" }
+              - label: "Blog Card"
+                name: "blog"
+                widget: "object"
+                fields:
+                  - { label: "Emoji", name: "emoji", widget: "string", default: "📝" }
+                  - { label: "Title", name: "title", widget: "string", default: "Blog" }
+                  - { label: "Description", name: "description", widget: "text" }
+              - label: "Apps Card"
+                name: "apps"
+                widget: "object"
+                fields:
+                  - { label: "Emoji", name: "emoji", widget: "string", default: "🚀" }
+                  - { label: "Title", name: "title", widget: "string", default: "Applications" }
+                  - { label: "Description", name: "description", widget: "text" }
+          - label: "Call to Action"
+            name: "cta"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string", default: "Let's Connect" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "GitHub URL", name: "github", widget: "string", required: false }
+              - { label: "Email", name: "email", widget: "string", required: false }
+
   # About Page Collection
   - name: "about"
     label: "About Page"
